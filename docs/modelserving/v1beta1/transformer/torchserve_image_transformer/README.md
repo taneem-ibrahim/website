@@ -117,7 +117,7 @@ In this example, the model repository contains a MNIST model, but you can store 
         model:
           modelFormat:
             name: pytorch
-          storageUri: gs://kfserving-examples/models/torchserve/image_classifier
+          storageUri: gs://kfserving-examples/models/torchserve/image_classifier/v1
       transformer:
         containers:
           - image: kserve/image-transformer:latest
@@ -141,7 +141,7 @@ In this example, the model repository contains a MNIST model, but you can store 
     spec:
       predictor:
         pytorch:
-          storageUri: gs://kfserving-examples/models/torchserve/image_classifier
+          storageUri: gs://kfserving-examples/models/torchserve/image_classifier/v1
       transformer:
         containers:
           - image: kserve/image-transformer:latest
@@ -186,6 +186,7 @@ curl -v -H "Host: ${SERVICE_HOSTNAME}" -d $INPUT_PATH http://${INGRESS_HOST}:${I
 ```
 
 !!! success "Expected Output"
+
     ```{ .bash .no-copy }
     > POST /v1/models/mnist:predict HTTP/1.1
     > Host: torch-transformer.default.example.com
@@ -229,7 +230,8 @@ The transformer calls out to predictor with V2 gRPC Protocol by specifying the `
     spec:
       predictor:
         model:
-          modelFormat: pytorch
+          modelFormat: 
+            name: pytorch
           storageUri: gs://kfserving-examples/models/torchscript
           runtime: kserve-tritonserver
           runtimeVersion: 20.10-py3
@@ -308,6 +310,7 @@ curl -v -H "Host: ${SERVICE_HOSTNAME}" -d $INPUT_PATH http://${INGRESS_HOST}:${I
 ```
 
 !!! success "Expected Output"
+
     ```{ .bash .no-copy }
     *   Trying ::1...
     * TCP_NODELAY set
